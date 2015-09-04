@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.sample.dao.MasterDao">
+
+	<insert id="insertSample" parameterType="map">
+		INSERT INTO user (
+			user_name,
+			user_status,
+			insert_date,
+			update_date
+		) VALUES (
+			#{userName},
+			#{userStatus},
+			now(),
+			now()
+		)
+	</insert>
+
+</mapper>
