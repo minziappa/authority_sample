@@ -5,29 +5,29 @@
 <mapper namespace="io.sample.dao.SlaveDao">
 
 	<select id="selectUser" parameterType="map" 
-		resultType="io.sample.bean.model.UserModel">
+		resultType="io.sample.bean.model.UsersModel">
 		SELECT
 			user_id,
 			user_name,
 			user_status,
-			insert_date,
-			update_date
+			insert_time,
+			update_time
 		FROM
-			user
+			users
 		WHERE
 			user_id = #{userId}
 	</select>
 
-	<select id="selectUserList" parameterType="map" 
-		resultType="io.sample.bean.model.UserModel">
+	<select id="selectUsersList" parameterType="map" 
+		resultType="io.sample.bean.model.UsersModel">
 		SELECT
 			user_id,
 			user_name,
 			user_status,
-			insert_date,
-			update_date
+			insert_time,
+			update_time
 		FROM
-			user
+			users
 	</select>
 
 </mapper>

@@ -1,13 +1,12 @@
 package io.sample.service;
 
-import io.sample.bean.SampleBean;
-import io.sample.bean.model.UserModel;
-import io.sample.bean.para.SamplePara;
+import io.sample.bean.model.UsersModel;
+import io.sample.bean.para.UserPara;
 
 import java.util.List;
 
 public interface SampleService {
-	public boolean insertSample(SamplePara samplePara) throws Exception;
-	public List<SampleBean> selectSampleList(SamplePara samplePara) throws Exception;
-	public UserModel selectSample(String name) throws Exception;
+	public boolean insertSample(UserPara userPara) throws Exception;
+	public List<UsersModel> selectSampleList() throws Exception;
+	public UsersModel selectSample(String name) throws Exception;
 }

@@ -1,42 +1,38 @@
 package io.sample.bean;
 
+import io.sample.bean.model.UsersModel;
+
 import java.util.List;
 
 public class Sample {
 
-	private SampleBean sample;
-	private List<SampleBean> sampleList;
+	private UsersModel users;
+	private List<UsersModel> usersList;
 	private String navi;
     private String errorMessage;
 
-	public SampleBean getSample() {
-		return sample;
-	}
 
-	public void setSample(SampleBean sample) {
-		this.sample = sample;
+	public UsersModel getUsers() {
+		return users;
 	}
-
-	public List<SampleBean> getSampleList() {
-		return sampleList;
+	public void setUsers(UsersModel users) {
+		this.users = users;
 	}
-
-	public void setSampleList(List<SampleBean> sampleList) {
-		this.sampleList = sampleList;
+	public List<UsersModel> getUsersList() {
+		return usersList;
 	}
-
+	public void setUsersList(List<UsersModel> usersList) {
+		this.usersList = usersList;
+	}
 	public String getNavi() {
 		return navi;
 	}
-
 	public void setNavi(String navi) {
 		this.navi = navi;
 	}
-
 	public String getErrorMessage() {
 		return errorMessage;
 	}
-
 	public void setErrorMessage(String errorMessage) {
 		this.errorMessage = errorMessage;
 	}

@@ -88,14 +88,6 @@ dependencies {
 	testCompile "junit:junit:4.+"
 }
 
-jettyRun {
-	httpPort = 9001
-	reload = 'automatic'
-	scanIntervalSeconds = 2
-	/* Change context path (base url). otherwise defaults to name of project */
-	contextPath = ''
-}
-
 /* Multi-users environment */
 // gradle jettyRun -Pprofile=develop
 final String DEFAULT_PROFILE = 'develop'
@@ -110,6 +102,14 @@ allprojects {
 			}
 		}
 	}
+}
+
+jettyRun {
+	httpPort = 9001
+	reload = 'automatic'
+	scanIntervalSeconds = 2
+	/* Change context path (base url). otherwise defaults to name of project */
+	contextPath = ''
 }
 
 test {

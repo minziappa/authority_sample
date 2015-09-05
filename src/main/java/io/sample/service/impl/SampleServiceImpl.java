@@ -1,8 +1,9 @@
 package io.sample.service.impl;
 
 import io.sample.bean.SampleBean;
-import io.sample.bean.model.UserModel;
+import io.sample.bean.model.UsersModel;
 import io.sample.bean.para.SamplePara;
+import io.sample.bean.para.UserPara;
 import io.sample.dao.MasterDao;
 import io.sample.dao.SlaveDao;
 import io.sample.service.AbstractService;
@@ -36,21 +37,22 @@ public class SampleServiceImpl extends AbstractService implements SampleService 
 
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	@Override
-	public boolean insertSample(SamplePara samplePara) throws Exception {
+	public boolean insertSample(UserPara userPara) throws Exception {
 
 		int intResult = 0;
 
-		Map<String, Object> mapSample = new HashMap<String, Object>();
-		mapSample.put("userName", samplePara.getUserName());
-		mapSample.put("userStatus", samplePara.getUserStatus());
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userName", userPara.getUserName());
+		map.put("userPwd", userPara.getUserPwd());
+		map.put("userStatus", userPara.getUserStatus());
 
 		try {
-			intResult = masterDao.getMapper(MasterDao.class).insertSample(mapSample);
+			intResult = masterDao.getMapper(MasterDao.class).insertUser(map);
 		} catch (Exception e) {
 			logger.error("Exception error", e);
 		}
 		if(intResult < 1) {
-			logger.error("insertSample error, userName={}", samplePara.getUserName());
+			logger.error("insertSample error, userName={}", userPara.getUserName());
 			return false;
 		}
 
@@ -58,9 +60,9 @@ public class SampleServiceImpl extends AbstractService implements SampleService 
 	}
 
 	@Override
-	public UserModel selectSample(String name) throws Exception {
+	public UsersModel selectSample(String name) throws Exception {
 
-		UserModel sample = new UserModel();
+		UsersModel sample = new UsersModel();
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("userName", name);
@@ -76,19 +78,18 @@ public class SampleServiceImpl extends AbstractService implements SampleService 
 	}
 
 	@Override
-	public List<SampleBean> selectSampleList(SamplePara samplePara) throws Exception {
+	public List<UsersModel> selectSampleList() throws Exception {
 
-		List<UserModel> sampleList = new ArrayList<UserModel>();
-		List<SampleBean> sampleBeanList = new ArrayList<SampleBean>();
+		List<UsersModel> userList = new ArrayList<UsersModel>();
 
 		try {
 			sqlSessionSlaveFactory.setDataSource(getDispersionDb());
-			sampleList = slaveDao.getMapper(SlaveDao.class).selectUserList();
+			userList = slaveDao.getMapper(SlaveDao.class).selectUsersList();
 		} catch (Exception e) {
 			logger.error("Exception error", e);
 		}
 
-		return sampleBeanList;
+		return userList;
 	}
 
 }

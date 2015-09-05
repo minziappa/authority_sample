@@ -2,14 +2,14 @@ package io.sample.bean.model;
 
 import java.util.Date;
 
-public class UserModel {
+public class UsersModel {
 
 	private int userId;
 	private String userName;
 	private String userStatus;
 	private String userPwd;
-	private Date insertDate;
-	private Date updateDate;
+	private Date insertTime;
+	private Date updateTime;
 
 	public int getUserId() {
 		return userId;
@@ -35,17 +35,17 @@ public class UserModel {
 	public void setUserPwd(String userPwd) {
 		this.userPwd = userPwd;
 	}
-	public Date getInsertDate() {
-		return insertDate;
+	public Date getInsertTime() {
+		return insertTime;
 	}
-	public void setInsertDate(Date insertDate) {
-		this.insertDate = insertDate;
+	public void setInsertTime(Date insertTime) {
+		this.insertTime = insertTime;
 	}
-	public Date getUpdateDate() {
-		return updateDate;
+	public Date getUpdateTime() {
+		return updateTime;
 	}
-	public void setUpdateDate(Date updateDate) {
-		this.updateDate = updateDate;
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
 	}
 
 }

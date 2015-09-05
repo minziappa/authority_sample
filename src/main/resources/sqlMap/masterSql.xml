@@ -4,15 +4,17 @@
 
 <mapper namespace="io.sample.dao.MasterDao">
 
-	<insert id="insertSample" parameterType="map">
-		INSERT INTO user (
+	<insert id="insertUser" parameterType="map">
+		INSERT INTO users (
 			user_name,
 			user_status,
-			insert_date,
-			update_date
+			user_pwd,
+			insert_time,
+			update_time
 		) VALUES (
 			#{userName},
 			#{userStatus},
+			#{userPwd},
 			now(),
 			now()
 		)
