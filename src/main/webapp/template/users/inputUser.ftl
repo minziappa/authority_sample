@@ -7,6 +7,7 @@
 	<div class="panel-body">
 		<form action="/users/registerUser" method="POST">
 		<b style="color:red" >
+		${errorMessage?if_exists}
 		<#if mapErrorMessage??>
 			<#list mapErrorMessage?keys as key>
 			    ${mapErrorMessage[key]} <br/>

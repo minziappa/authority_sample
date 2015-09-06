@@ -1,6 +1,8 @@
 package io.sample.controller;
 
 import io.sample.bean.Sample;
+import io.sample.bean.model.UsersModel;
+import io.sample.service.LoginService;
 
 import javax.servlet.http.HttpSession;
 
@@ -37,6 +39,8 @@ public class LoginController extends AbstractBaseController {
     private Validator validator;
 	@Autowired
 	private MessageSource message;
+	@Autowired
+	private LoginService loginService;
 
     @RequestMapping(value = {"/", "", "index"}, method=RequestMethod.GET)
 	public String index(HttpSession session, ModelMap model) throws Exception {
@@ -48,29 +52,34 @@ public class LoginController extends AbstractBaseController {
 
 	@RequestMapping(value = {"login"})
 	public String login(@RequestParam String userName, @RequestParam String userPwd, HttpSession session) throws Exception {
-
 		logger.info("This is a login process");
 
-		session.setAttribute("user", userName);
-		logger.info("user name = " + userName);
-		logger.info("user pwd = " + userPwd);
+		// session clear
+		session.removeAttribute("user");
+		UsersModel user = loginService.checkLogin(userName);
+		if(user == null) {
+			logger.warn("There is no the account");
+			return "login/index";
+		}
+		session.setAttribute("user", user);
+		logger.info("user status = " + user.getUserStatus());
 		session.setMaxInactiveInterval(100*60);
 
 		return "login/login";
 	}
 
 	@RequestMapping(value = {"logout"})
-	public String logout(ModelMap model, SessionStatus sessionStatus) throws Exception {
+	public String logout(ModelMap model, HttpSession session) throws Exception {
 
-		Sample modelView = new Sample();
-		modelView.setNavi("login");
+		Sample sample = new Sample();
+		sample.setNavi("login");
 
 		// Clear data in the session.
-		sessionStatus.isComplete();
+		session.invalidate();
 
-		model.addAttribute("model", modelView);
+		model.addAttribute("model", sample);
 
-		return "redirect:/sample/index/";
+		return "redirect:/login/";
 	}
 
 	@RequestMapping(value = {"denied"})

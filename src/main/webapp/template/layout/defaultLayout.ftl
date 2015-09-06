@@ -7,12 +7,11 @@
     <div class="container">
     	<div class="jumbotron">
 		<#include "menu.ftl"/>
-
 		<#nested/>
 
 		</div><!-- /jumbotron -->
-		<#include "footer.ftl">
     </div><!-- /container -->
+	<#include "footer.ftl">
 	</body>
 </html>
 </#macro>

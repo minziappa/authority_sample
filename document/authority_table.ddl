@@ -9,6 +9,7 @@ CREATE TABLE users (
   update_time TIMESTAMP NULL,
   PRIMARY KEY (user_id)
 ) ENGINE=innoDB DEFAULT CHARSET=utf8;
+CREATE UNIQUE INDEX user_name_idx1 ON users (user_name);
 
 CREATE TABLE groups (
   group_id INT NOT NULL AUTO_INCREMENT,
@@ -25,8 +26,6 @@ CREATE TABLE authorities (
   update_time TIMESTAMP NULL,
   PRIMARY KEY (authority_id)
 ) ENGINE=innoDB DEFAULT CHARSET=utf8;
-
---CREATE UNIQUE INDEX authority_idx1 ON authorities (authority);
 
 CREATE TABLE user_authorities (
 	user_authorities_id INT NOT NULL AUTO_INCREMENT,

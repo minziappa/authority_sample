@@ -41,6 +41,10 @@ public class SampleServiceImpl extends AbstractService implements SampleService 
 
 		int intResult = 0;
 
+		if(this.checkUser(userPara.getUserName())) {
+			return false;
+		}
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("userName", userPara.getUserName());
 		map.put("userPwd", userPara.getUserPwd());
@@ -56,6 +60,15 @@ public class SampleServiceImpl extends AbstractService implements SampleService 
 			return false;
 		}
 
+		return true;
+	}
+
+	@Override
+	public boolean checkUser(String name) throws Exception {
+		UsersModel user = this.selectSample(name);
+		if(user == null) {
+			return false;
+		}
 		return true;
 	}
 

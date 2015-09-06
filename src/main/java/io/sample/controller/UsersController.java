@@ -1,6 +1,7 @@
 package io.sample.controller;
 
 import io.sample.bean.Sample;
+import io.sample.bean.para.UserDetailPara;
 import io.sample.bean.para.UserPara;
 import io.sample.service.SampleService;
 
@@ -51,20 +52,21 @@ public class UsersController extends AbstractBaseController {
 			ModelMap model, HttpServletResponse response) throws Exception {
 
 		Sample sample = new Sample();
+		Map<String, String> mapErrorMessage = null;
 
 		// If it occurs a error, set the default value.
 		if (bindingResult.hasErrors()) {
 			logger.error("insertUser - it is occured a parameter error.");
 			response.setStatus(400);
 
-			Map<String, String> mapErrorMessage = this.handleErrorMessages(bindingResult.getAllErrors());
+			mapErrorMessage = this.handleErrorMessages(bindingResult.getAllErrors());
 			model.addAttribute("mapErrorMessage",  mapErrorMessage);
 			model.addAttribute("model", sample);
 			return "users/inputUser";
 		}
 
 		// Execute the transaction
-		if(sampleService.insertSample(userPara)) {
+		if(!sampleService.insertSample(userPara)) {
 			model.addAttribute("errorMessage", message.getMessage("parameter.error.message", null, LOCALE));
 			model.addAttribute("model", sample);
 			return "users/inputUser";
@@ -84,6 +86,29 @@ public class UsersController extends AbstractBaseController {
 		model.addAttribute("model", sample);
 
 		return "users/usersList";
+	}
+
+	@RequestMapping(value = {"userDetail"})
+	public String userDetail(@Valid UserDetailPara userDetailPara, BindingResult bindingResult, 
+			ModelMap model, HttpServletResponse response) throws Exception {
+
+		Sample sample = new Sample();
+
+		// If it occurs a error, set the default value.
+		if (bindingResult.hasErrors()) {
+			logger.error("userDetail - it is occured a parameter error.");
+			Map<String, String> mapErrorMessage = this.handleErrorMessages(bindingResult.getAllErrors());
+			response.setStatus(400);
+			model.addAttribute("errorMessage", mapErrorMessage);
+			return "users/userList";
+		}
+
+		// Select name's data from User
+		sample.setUsers(sampleService.selectSample(userDetailPara.getUserName()));
+
+		model.addAttribute("model", sample);
+
+		return "users/userDetail";
 	}
 
 }

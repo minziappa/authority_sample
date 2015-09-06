@@ -9,13 +9,14 @@
 		SELECT
 			user_id,
 			user_name,
+			user_pwd,
 			user_status,
 			insert_time,
 			update_time
 		FROM
 			users
 		WHERE
-			user_id = #{userId}
+			user_name = #{userName}
 	</select>
 
 	<select id="selectUsersList" parameterType="map" 
@@ -23,6 +24,7 @@
 		SELECT
 			user_id,
 			user_name,
+			user_pwd,
 			user_status,
 			insert_time,
 			update_time
