@@ -45,7 +45,9 @@ public class LoginController extends AbstractBaseController {
     @RequestMapping(value = {"/", "", "index"}, method=RequestMethod.GET)
 	public String index(HttpSession session, ModelMap model) throws Exception {
 
-    	logger.info("Login index");
+		Sample sample = new Sample();
+		sample.setNavi("login");
+		model.addAttribute("model", sample);
 
 		return "login/index";
 	}
@@ -65,7 +67,7 @@ public class LoginController extends AbstractBaseController {
 		logger.info("user status = " + user.getUserStatus());
 		session.setMaxInactiveInterval(100*60);
 
-		return "login/login";
+		return "redirect:/";
 	}
 
 	@RequestMapping(value = {"logout"})

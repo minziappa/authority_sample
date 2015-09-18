@@ -8,22 +8,28 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Sample</a>
+          <a class="navbar-brand" href="#">Authority</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li <#if model??><#if model.navi??><#if model.navi == "home">class="active"</#if></#if></#if>><a href="/">Home</a></li>
+            <#if user??>
+            <li <#if model??><#if model.navi??>
+					<#if model.navi == "aIndex" 
+						|| model.navi == "inputUser"
+						|| model.navi == "userList"
+						|| model.navi == "userDetail">
+						class="active"
+            		</#if></#if></#if>><a href="/users/userList">Users</a></li>
+            </#if>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li role="separator" class="divider"></li>
-                <li class="dropdown-header">Nav header</li>
-                <li><a href="#">Separated link</a></li>
-              </ul>
-            </li>
+	        	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Options<span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li><a href="/options/userList">User List A</a></li>
+					<li><a href="#">Type B</a></li>
+					<li><a href="#">Type C</a></li>
+				</ul>
+			</li>
           </ul>
 	<#if user??>
 		<#include "/login/naviLogin.ftl">

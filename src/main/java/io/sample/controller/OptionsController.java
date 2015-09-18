@@ -1,7 +1,6 @@
 package io.sample.controller;
 
 import io.sample.bean.Sample;
-import io.sample.bean.para.UserDetailPara;
 import io.sample.bean.para.UserPara;
 import io.sample.service.SampleService;
 
@@ -23,10 +22,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/users")
-public class UsersController extends AbstractBaseController {
+@RequestMapping("/options")
+public class OptionsController extends AbstractBaseController {
 
-	final Logger logger = LoggerFactory.getLogger(UsersController.class);
+	final Logger logger = LoggerFactory.getLogger(OptionsController.class);
 
     @Autowired
     private Validator validator;
@@ -43,16 +42,6 @@ public class UsersController extends AbstractBaseController {
 	   	model.addAttribute("model", sample);
 
 		return "users/index";
-	}
-
-    @RequestMapping(value = {"inputUser"})
-	public String inputUser(HttpSession session, ModelMap model) throws Exception {
-		Sample sample = new Sample();
-
-		sample.setNavi("inputUser");
-	   	model.addAttribute("model", sample);
-
-		return "users/inputUser";
 	}
 
 	@RequestMapping(value = {"registerUser"})
@@ -89,7 +78,7 @@ public class UsersController extends AbstractBaseController {
 
 		Sample sample = new Sample();
 
-		sample.setNavi("userList");
+		sample.setNavi("options");
 	   	model.addAttribute("model", sample);
 
 		// Execute the transaction
@@ -97,31 +86,7 @@ public class UsersController extends AbstractBaseController {
 
 		model.addAttribute("model", sample);
 
-		return "users/userList";
-	}
-
-	@RequestMapping(value = {"userDetail"})
-	public String userDetail(@Valid UserDetailPara userDetailPara, BindingResult bindingResult, 
-			ModelMap model, HttpServletResponse response) throws Exception {
-
-		Sample sample = new Sample();
-		sample.setNavi("userDetail");
-
-		// If it occurs a error, set the default value.
-		if (bindingResult.hasErrors()) {
-			logger.error("userDetail - it is occured a parameter error.");
-			Map<String, String> mapErrorMessage = this.handleErrorMessages(bindingResult.getAllErrors());
-			response.setStatus(400);
-			model.addAttribute("errorMessage", mapErrorMessage);
-			return "users/userList";
-		}
-
-		// Select name's data from User
-		sample.setUsers(sampleService.selectSample(userDetailPara.getUserName()));
-
-		model.addAttribute("model", sample);
-
-		return "users/userDetail";
+		return "options/userList";
 	}
 
 }

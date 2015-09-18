@@ -1,5 +1,7 @@
 package io.sample.controller;
 
+import io.sample.bean.Sample;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -33,6 +35,10 @@ public class IndexController extends AbstractBaseController {
 
     @RequestMapping(value = {"/", "", "index"}, method=RequestMethod.GET)
 	public String index(HttpSession session, ModelMap model) throws Exception {
+		Sample sample = new Sample();
+
+		sample.setNavi("home");
+	   	model.addAttribute("model", sample);
 
 		return "index";
 	}

@@ -1,4 +1,4 @@
-<#import "../layout/defaultLayout.ftl" as layout>
+<#import "../layout/loginLayout.ftl" as layout>
 <@layout.myLayout>
       <form class="form-signin" role="form" action="/login/login" name="sform" id="sform" method="POST">
         <h2 class="form-signin-heading">Please sign ina</h2>

@@ -1,4 +1,4 @@
-<#import "../layout/defaultLayout.ftl" as layout>
+<#import "../layout/authLayout.ftl" as layout>
 <@layout.myLayout>
 <script>
 function editUser() {
