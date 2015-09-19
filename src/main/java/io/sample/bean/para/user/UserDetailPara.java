@@ -1,4 +1,4 @@
-package io.sample.bean.para;
+package io.sample.bean.para.user;
 
 import javax.validation.constraints.NotNull;
 

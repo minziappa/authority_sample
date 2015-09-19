@@ -17,7 +17,7 @@
 		  <tr>
 		    <td>${user.userId?if_exists}</td>
 		    <td><a href="/users/userDetail?userName=${user.userName?if_exists}">${user.userName?if_exists}</a></td>
-		    <td><input type="text" name="pwd" value="${user.userPwd?if_exists}"<#if user.userStatus == "2">disabled</#if>></td>
+		    <td>${user.userPwd?if_exists}</td>
 		    <td>${user.userStatus?if_exists}</td>
 		  </tr>
 		</#list>

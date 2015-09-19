@@ -1,7 +1,7 @@
 package io.sample.controller;
 
 import io.sample.bean.Sample;
-import io.sample.bean.para.UserPara;
+import io.sample.bean.para.user.UserPara;
 import io.sample.service.SampleService;
 
 import java.util.Map;
@@ -37,8 +37,8 @@ public class OptionsController extends AbstractBaseController {
     @RequestMapping(value = {"/", "", "index"}, method=RequestMethod.GET)
 	public String index(HttpSession session, ModelMap model) throws Exception {
 		Sample sample = new Sample();
-
-		sample.setNavi("aIndex");
+		sample.setNavi("options");
+		sample.setMenu("index");
 	   	model.addAttribute("model", sample);
 
 		return "users/index";
@@ -79,6 +79,7 @@ public class OptionsController extends AbstractBaseController {
 		Sample sample = new Sample();
 
 		sample.setNavi("options");
+		sample.setMenu("options");
 	   	model.addAttribute("model", sample);
 
 		// Execute the transaction

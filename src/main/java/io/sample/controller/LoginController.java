@@ -16,7 +16,6 @@ import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.support.SessionStatus;
 
 /***
  * The <code>LoginSampleController</code> class represents action controller.
@@ -46,7 +45,7 @@ public class LoginController extends AbstractBaseController {
 	public String index(HttpSession session, ModelMap model) throws Exception {
 
 		Sample sample = new Sample();
-		sample.setNavi("login");
+		sample.setMenu("login");
 		model.addAttribute("model", sample);
 
 		return "login/index";
@@ -74,7 +73,7 @@ public class LoginController extends AbstractBaseController {
 	public String logout(ModelMap model, HttpSession session) throws Exception {
 
 		Sample sample = new Sample();
-		sample.setNavi("login");
+		sample.setMenu("login");
 
 		// Clear data in the session.
 		session.invalidate();

@@ -1,8 +1,10 @@
 package io.sample.controller;
 
 import io.sample.bean.Sample;
+import io.sample.bean.para.auth.AuthPara;
 import io.sample.bean.para.user.UserDetailPara;
 import io.sample.bean.para.user.UserPara;
+import io.sample.service.AuthService;
 import io.sample.service.SampleService;
 
 import java.util.Map;
@@ -23,10 +25,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/users")
-public class UsersController extends AbstractBaseController {
+@RequestMapping("/auth")
+public class AuthController extends AbstractBaseController {
 
-	final Logger logger = LoggerFactory.getLogger(UsersController.class);
+	final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
     private Validator validator;
@@ -34,36 +36,38 @@ public class UsersController extends AbstractBaseController {
 	private MessageSource message;
 	@Autowired
 	private SampleService sampleService;
+	@Autowired
+	private AuthService authService;
 
     @RequestMapping(value = {"/", "", "index"}, method=RequestMethod.GET)
 	public String index(HttpSession session, ModelMap model) throws Exception {
 		Sample sample = new Sample();
 
-		sample.setNavi("users");
+		sample.setNavi("auth");
 		sample.setMenu("index");
 	   	model.addAttribute("model", sample);
 
-		return "users/index";
+		return "auth/index";
 	}
 
-    @RequestMapping(value = {"inputUser"})
-	public String inputUser(HttpSession session, ModelMap model) throws Exception {
+    @RequestMapping(value = {"inputAuth"})
+	public String inputAuth(HttpSession session, ModelMap model) throws Exception {
 		Sample sample = new Sample();
 
-		sample.setNavi("users");
-		sample.setMenu("inputUser");
+		sample.setNavi("auth");
+		sample.setMenu("inputAuth");
 	   	model.addAttribute("model", sample);
 
-		return "users/inputUser";
+		return "auth/inputAuth";
 	}
 
-	@RequestMapping(value = {"registerUser"})
-	public String registerUser(@Valid UserPara userPara, BindingResult bindingResult, 
+	@RequestMapping(value = {"registerAuth"})
+	public String registerAuth(@Valid AuthPara authPara, BindingResult bindingResult, 
 			ModelMap model, HttpServletResponse response) throws Exception {
 
 		Sample sample = new Sample();
-		sample.setNavi("users");
-		sample.setMenu("inputUser");
+		sample.setNavi("auth");
+		sample.setMenu("inputAuth");
 
 		Map<String, String> mapErrorMessage = null;
 
@@ -75,73 +79,42 @@ public class UsersController extends AbstractBaseController {
 			mapErrorMessage = this.handleErrorMessages(bindingResult.getAllErrors());
 			model.addAttribute("mapErrorMessage",  mapErrorMessage);
 			model.addAttribute("model", sample);
-			return "users/inputUser";
+			return "auth/inputAuth";
 		}
 
 		// Execute the transaction
-		if(!sampleService.insertSample(userPara)) {
+		if(!authService.insertAuth(authPara)) {
 			model.addAttribute("errorMessage", message.getMessage("parameter.error.message", null, LOCALE));
 			model.addAttribute("model", sample);
-			return "users/inputUser";
+			return "auth/inputAuth";
 		}
 
-		return "redirect:/users/";
+		return "redirect:/auth/";
 	}
 
-	@RequestMapping(value = {"deleteUser"})
-	public String deleteUser(@Valid UserDetailPara userDetailPara, BindingResult bindingResult, 
-			ModelMap model, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = {"authList"})
+	public String authList(ModelMap model) throws Exception {
 
 		Sample sample = new Sample();
-		sample.setNavi("users");
-		sample.setMenu("userDetail");
-
-		Map<String, String> mapErrorMessage = null;
-
-		// If it occurs a error, set the default value.
-		if (bindingResult.hasErrors()) {
-			logger.error("insertUser - it is occured a parameter error.");
-			response.setStatus(400);
-
-			mapErrorMessage = this.handleErrorMessages(bindingResult.getAllErrors());
-			model.addAttribute("mapErrorMessage",  mapErrorMessage);
-			model.addAttribute("model", sample);
-			return "users/userDetail";
-		}
-
-		// Execute the transaction
-		if(!sampleService.deleteSample(userDetailPara)) {
-			model.addAttribute("errorMessage", message.getMessage("parameter.error.message", null, LOCALE));
-			model.addAttribute("model", sample);
-			return "users/userDetail";
-		}
-
-		return "redirect:/users/";
-	}
-
-	@RequestMapping(value = {"userList"})
-	public String userList(ModelMap model) throws Exception {
-
-		Sample sample = new Sample();
-		sample.setNavi("users");
-		sample.setMenu("userList");
+		sample.setNavi("auth");
+		sample.setMenu("authList");
 	   	model.addAttribute("model", sample);
 
 		// Execute the transaction
-		sample.setUsersList(sampleService.selectSampleList());
+		sample.setAuthList(authService.selectAuthList());
 
 		model.addAttribute("model", sample);
 
-		return "users/userList";
+		return "auth/authList";
 	}
 
-	@RequestMapping(value = {"userDetail"})
-	public String userDetail(@Valid UserDetailPara userDetailPara, BindingResult bindingResult, 
+	@RequestMapping(value = {"authDetail"})
+	public String authDetail(@Valid UserDetailPara userDetailPara, BindingResult bindingResult, 
 			ModelMap model, HttpServletResponse response) throws Exception {
 
 		Sample sample = new Sample();
-		sample.setNavi("users");
-		sample.setMenu("userDetail");
+		sample.setNavi("auth");
+		sample.setMenu("authDetail");
 
 		// If it occurs a error, set the default value.
 		if (bindingResult.hasErrors()) {
@@ -149,7 +122,7 @@ public class UsersController extends AbstractBaseController {
 			Map<String, String> mapErrorMessage = this.handleErrorMessages(bindingResult.getAllErrors());
 			response.setStatus(400);
 			model.addAttribute("errorMessage", mapErrorMessage);
-			return "users/userList";
+			return "auth/authList";
 		}
 
 		// Select name's data from User
@@ -157,7 +130,7 @@ public class UsersController extends AbstractBaseController {
 
 		model.addAttribute("model", sample);
 
-		return "users/userDetail";
+		return "auth/authDetail";
 	}
 
 }

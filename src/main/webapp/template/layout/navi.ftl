@@ -14,13 +14,8 @@
           <ul class="nav navbar-nav">
             <li <#if model??><#if model.navi??><#if model.navi == "home">class="active"</#if></#if></#if>><a href="/">Home</a></li>
             <#if user??>
-            <li <#if model??><#if model.navi??>
-					<#if model.navi == "aIndex" 
-						|| model.navi == "inputUser"
-						|| model.navi == "userList"
-						|| model.navi == "userDetail">
-						class="active"
-            		</#if></#if></#if>><a href="/users/userList">Users</a></li>
+            	<li <#if model??><#if model.navi??><#if model.navi == "auth">class="active"</#if></#if></#if>><a href="/auth/">Auth</a></li>
+            	<li <#if model??><#if model.navi??><#if model.navi == "users">class="active"</#if></#if></#if>><a href="/users/userList">Users</a></li>
             </#if>
             <li class="dropdown">
 	        	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Options<span class="caret"></span></a>

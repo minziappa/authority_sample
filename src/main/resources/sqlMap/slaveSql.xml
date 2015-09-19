@@ -32,4 +32,28 @@
 			users
 	</select>
 
+	<select id="selectAuth" parameterType="map" 
+		resultType="io.sample.bean.model.auth.AuthModel">
+		SELECT
+			authority_id,
+			authority,
+			insert_time,
+			update_time
+		FROM
+			authorities
+		WHERE
+			authority = #{authority}
+	</select>
+
+	<select id="selectAuthList" parameterType="map" 
+		resultType="io.sample.bean.model.auth.AuthModel">
+		SELECT
+			authority_id,
+			authority,
+			insert_time,
+			update_time
+		FROM
+			authorities
+	</select>
+
 </mapper>

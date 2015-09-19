@@ -5,7 +5,13 @@
 	<body>
 	<#include "navi.ftl"/>
     <div class="container">
-		<#include "menu.ftl"/>
+    	<#if model??><#if model.navi??>
+			<#if model.navi == "auth">
+				<#include "authMenu.ftl"/>
+			<#elseif model.navi == "users">
+				<#include "usersMenu.ftl"/>
+			</#if>
+		</#if></#if>>
     	<div class="jumbotron">
 			<#nested/>
 		</div><!-- /jumbotron -->

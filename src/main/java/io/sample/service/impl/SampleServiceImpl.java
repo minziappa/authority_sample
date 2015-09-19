@@ -1,9 +1,8 @@
 package io.sample.service.impl;
 
-import io.sample.bean.SampleBean;
 import io.sample.bean.model.UsersModel;
-import io.sample.bean.para.SamplePara;
-import io.sample.bean.para.UserPara;
+import io.sample.bean.para.user.UserDetailPara;
+import io.sample.bean.para.user.UserPara;
 import io.sample.dao.MasterDao;
 import io.sample.dao.SlaveDao;
 import io.sample.service.AbstractService;
@@ -57,6 +56,26 @@ public class SampleServiceImpl extends AbstractService implements SampleService 
 		}
 		if(intResult < 1) {
 			logger.error("insertSample error, userName={}", userPara.getUserName());
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	public boolean deleteSample(UserDetailPara userDetailPara) throws Exception {
+		int intResult = 0;
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userName", userDetailPara.getUserName());
+
+		try {
+			intResult = masterDao.getMapper(MasterDao.class).deleteUser(map);
+		} catch (Exception e) {
+			logger.error("Exception error", e);
+		}
+		if(intResult < 1) {
+			logger.error("deleteUser error, userName={}", userDetailPara.getUserName());
 			return false;
 		}
 

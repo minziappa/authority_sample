@@ -19,5 +19,23 @@
 			now()
 		)
 	</insert>
+	<delete id="deleteUser" parameterType="map">
+		DELETE FROM users 
+		WHERE 
+			user_name = #{userName}
+	</delete>
+
+	<insert id="insertAuth" parameterType="map">
+		INSERT INTO authorities (
+			authority,
+			insert_time,
+			update_time
+		) VALUES (
+			#{authority},
+			now(),
+			now()
+		)
+	</insert>
+
 
 </mapper>
