@@ -1,6 +1,7 @@
 package io.sample.controller;
 
 import io.sample.bean.Sample;
+import io.sample.bean.para.auth.AuthDetailPara;
 import io.sample.bean.para.auth.AuthPara;
 import io.sample.bean.para.user.UserDetailPara;
 import io.sample.bean.para.user.UserPara;
@@ -109,7 +110,7 @@ public class AuthController extends AbstractBaseController {
 	}
 
 	@RequestMapping(value = {"authDetail"})
-	public String authDetail(@Valid UserDetailPara userDetailPara, BindingResult bindingResult, 
+	public String authDetail(@Valid AuthDetailPara authDetailPara, BindingResult bindingResult, 
 			ModelMap model, HttpServletResponse response) throws Exception {
 
 		Sample sample = new Sample();
@@ -126,7 +127,7 @@ public class AuthController extends AbstractBaseController {
 		}
 
 		// Select name's data from User
-		sample.setUsers(sampleService.selectSample(userDetailPara.getUserName()));
+		sample.setAuth(authService.selectAuth(authDetailPara.getAuthority()));
 
 		model.addAttribute("model", sample);
 

@@ -9,6 +9,7 @@ public class Sample {
 
 	private UsersModel users;
 	private List<UsersModel> usersList;
+	private AuthModel auth;
 	private List<AuthModel> authList;
 	private String navi;
 	private String menu;
@@ -25,6 +26,12 @@ public class Sample {
 	}
 	public void setUsersList(List<UsersModel> usersList) {
 		this.usersList = usersList;
+	}
+	public AuthModel getAuth() {
+		return auth;
+	}
+	public void setAuth(AuthModel auth) {
+		this.auth = auth;
 	}
 	public List<AuthModel> getAuthList() {
 		return authList;
