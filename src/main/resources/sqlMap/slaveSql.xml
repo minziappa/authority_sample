@@ -56,4 +56,19 @@
 			authorities
 	</select>
 
+	<select id="selectUserAuth" parameterType="map" 
+		resultType="io.sample.bean.model.auth.UserAuthModel">
+		SELECT
+			user_authorities_id,
+			user_id,
+			authority_id,
+			insert_time,
+			update_time
+		FROM
+			user_authorities
+		WHERE
+			user_id = #{userId} AND
+			authority_id = #{authorityId}
+	</select>
+
 </mapper>

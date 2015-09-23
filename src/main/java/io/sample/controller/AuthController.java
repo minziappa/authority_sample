@@ -3,6 +3,7 @@ package io.sample.controller;
 import io.sample.bean.Sample;
 import io.sample.bean.para.auth.AuthDetailPara;
 import io.sample.bean.para.auth.AuthPara;
+import io.sample.bean.para.auth.UpdateUsersPara;
 import io.sample.bean.para.user.UserDetailPara;
 import io.sample.bean.para.user.UserPara;
 import io.sample.service.AuthService;
@@ -46,6 +47,9 @@ public class AuthController extends AbstractBaseController {
 
 		sample.setNavi("auth");
 		sample.setMenu("index");
+		// Execute the transaction
+		sample.setAuthList(authService.selectAuthList());
+
 	   	model.addAttribute("model", sample);
 
 		return "auth/index";
@@ -132,6 +136,37 @@ public class AuthController extends AbstractBaseController {
 		model.addAttribute("model", sample);
 
 		return "auth/authDetail";
+	}
+
+	@RequestMapping(value = {"updateUsers"})
+	public String updateUsers(@Valid UpdateUsersPara updateUsersPara, BindingResult bindingResult, 
+			ModelMap model, HttpServletResponse response) throws Exception {
+
+		Sample sample = new Sample();
+		sample.setNavi("auth");
+		sample.setMenu("index");
+
+		Map<String, String> mapErrorMessage = null;
+
+		// If it occurs a error, set the default value.
+		if (bindingResult.hasErrors()) {
+			logger.error("insertUser - it is occured a parameter error.");
+			response.setStatus(400);
+
+			mapErrorMessage = this.handleErrorMessages(bindingResult.getAllErrors());
+			model.addAttribute("mapErrorMessage",  mapErrorMessage);
+			model.addAttribute("model", sample);
+			return "auth/index";
+		}
+
+		// Execute the transaction
+		if(!authService.updateUsers(updateUsersPara)) {
+			model.addAttribute("errorMessage", message.getMessage("parameter.error.message", null, LOCALE));
+			model.addAttribute("model", sample);
+			return "auth/inputAuth";
+		}
+
+		return "redirect:/auth/";
 	}
 
 }

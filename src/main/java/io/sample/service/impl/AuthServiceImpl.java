@@ -1,11 +1,9 @@
 package io.sample.service.impl;
 
-import io.sample.bean.SampleBean;
-import io.sample.bean.model.UsersModel;
 import io.sample.bean.model.auth.AuthModel;
-import io.sample.bean.para.SamplePara;
+import io.sample.bean.model.auth.UserAuthModel;
 import io.sample.bean.para.auth.AuthPara;
-import io.sample.bean.para.user.UserPara;
+import io.sample.bean.para.auth.UpdateUsersPara;
 import io.sample.dao.MasterDao;
 import io.sample.dao.SlaveDao;
 import io.sample.service.AbstractService;
@@ -36,6 +34,9 @@ public class AuthServiceImpl extends AbstractService implements AuthService {
 	@Autowired
 	private SqlSession slaveDao;
 	@Autowired
+	private SqlSession masterBatchDao;
+
+	@Autowired
     private Configuration configuration;
 
 	@Override
@@ -63,6 +64,24 @@ public class AuthServiceImpl extends AbstractService implements AuthService {
 		}
 
 		return auth;
+	}
+
+	private UserAuthModel selectUserAuth(int userId, int authorityId) throws Exception {
+
+		UserAuthModel userAuth = null;
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userId", userId);
+		map.put("authorityId", authorityId);
+
+		try {
+			sqlSessionSlaveFactory.setDataSource(getDispersionDb());
+			userAuth = slaveDao.getMapper(SlaveDao.class).selectUserAuth(map);
+		} catch (Exception e) {
+			logger.error("Exception error", e);
+		}
+
+		return userAuth;
 	}
 
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
@@ -107,4 +126,36 @@ public class AuthServiceImpl extends AbstractService implements AuthService {
 		return authList;
 	}
 
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+	@Override
+	public boolean updateUsers(UpdateUsersPara updateUsersPara) throws Exception{
+		int intResult = 0;
+
+		if(this.checkAuth(updateUsersPara.getAuthorityId())) {
+			logger.warn("There is a data.");
+			return false;
+		}
+
+		try {
+
+			for(String userId : updateUsersPara.getUserIdAuth()) {
+
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("userId", new Integer(userId));
+				map.put("authorityId", new Integer(updateUsersPara.getAuthorityId()));
+
+				masterBatchDao.getMapper(MasterDao.class).insertUserAuth(map);
+			}
+
+		} catch (Exception e) {
+			logger.error("Exception error", e);
+			throw e;
+		}
+		if(intResult < 1) {
+			logger.error("insertSample error, userName={}", updateUsersPara.getAuthorityId());
+			return false;
+		}
+
+		return true;
+	}
 }

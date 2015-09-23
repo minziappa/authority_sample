@@ -36,6 +36,18 @@
 			now()
 		)
 	</insert>
-
+	<insert id="insertUserAuth" parameterType="map">
+		INSERT INTO user_authorities (
+			user_id,
+			authority_id,
+			insert_time,
+			update_time
+		) VALUES (
+			#{userId},
+			#{authorityId},
+			now(),
+			now()
+		)
+	</insert>
 
 </mapper>

@@ -10,7 +10,8 @@ public interface MasterDao {
 
 	public int insertUser(Map<String, Object> map) throws SQLException;
 	public int insertAuth(Map<String, Object> map) throws SQLException;
-	
+	public int insertUserAuth(Map<String, Object> map) throws SQLException;
+
 	public int deleteUser(Map<String, Object> map) throws SQLException;
 
 }
