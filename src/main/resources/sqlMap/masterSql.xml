@@ -5,7 +5,7 @@
 <mapper namespace="io.sample.dao.MasterDao">
 
 	<insert id="insertUser" parameterType="map">
-		INSERT INTO users (
+		INSERT INTO user (
 			user_name,
 			user_status,
 			user_pwd,

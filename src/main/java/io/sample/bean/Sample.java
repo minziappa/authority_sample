@@ -1,30 +1,30 @@
 package io.sample.bean;
 
-import io.sample.bean.model.UsersModel;
+import io.sample.bean.model.UserModel;
 import io.sample.bean.model.auth.AuthModel;
 
 import java.util.List;
 
 public class Sample {
 
-	private UsersModel users;
-	private List<UsersModel> usersList;
+	private UserModel users;
+	private List<UserModel> usersList;
 	private AuthModel auth;
 	private List<AuthModel> authList;
 	private String navi;
 	private String menu;
     private String errorMessage;
 
-	public UsersModel getUsers() {
+	public UserModel getUsers() {
 		return users;
 	}
-	public void setUsers(UsersModel users) {
+	public void setUsers(UserModel users) {
 		this.users = users;
 	}
-	public List<UsersModel> getUsersList() {
+	public List<UserModel> getUsersList() {
 		return usersList;
 	}
-	public void setUsersList(List<UsersModel> usersList) {
+	public void setUsersList(List<UserModel> usersList) {
 		this.usersList = usersList;
 	}
 	public AuthModel getAuth() {

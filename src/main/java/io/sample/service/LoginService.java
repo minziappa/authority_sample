@@ -1,7 +1,14 @@
 package io.sample.service;
 
-import io.sample.bean.model.UsersModel;
+import java.util.List;
+
+import io.sample.bean.model.UserModel;
+import io.sample.bean.para.user.UserPara;
 
 public interface LoginService {
-	public UsersModel checkLogin(String name) throws Exception;
+	public UserModel selectUser(String name) throws Exception;
+	public List<UserModel> selectUserList() throws Exception;
+	public UserModel checkUserRegistered(String name, String pwd) throws Exception;
+	public boolean insertUser(UserPara userPara) throws Exception;
+	public boolean deleteUser(UserPara userPara) throws Exception;
 }

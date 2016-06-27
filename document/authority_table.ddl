@@ -1,6 +1,6 @@
 CREATE DATABASE authority_db DEFAULT CHARACTER SET utf8;
 
-CREATE TABLE users (
+CREATE TABLE user (
   user_id INT NOT NULL AUTO_INCREMENT,
   user_name VARCHAR(100) NULL,
   user_status CHAR(1) NULL,
@@ -9,7 +9,7 @@ CREATE TABLE users (
   update_time TIMESTAMP NULL,
   PRIMARY KEY (user_id)
 ) ENGINE=innoDB DEFAULT CHARSET=utf8;
-CREATE UNIQUE INDEX user_name_idx1 ON users (user_name);
+CREATE UNIQUE INDEX user_name_idx1 ON user (user_name);
 
 CREATE TABLE groups (
   group_id INT NOT NULL AUTO_INCREMENT,

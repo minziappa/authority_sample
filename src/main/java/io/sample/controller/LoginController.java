@@ -1,7 +1,7 @@
 package io.sample.controller;
 
 import io.sample.bean.Sample;
-import io.sample.bean.model.UsersModel;
+import io.sample.bean.model.UserModel;
 import io.sample.service.LoginService;
 
 import javax.servlet.http.HttpSession;
@@ -52,15 +52,17 @@ public class LoginController extends AbstractBaseController {
 	}
 
 	@RequestMapping(value = {"login"})
-	public String login(@RequestParam String userName, @RequestParam String userPwd, HttpSession session) throws Exception {
+	public String login(@RequestParam String userName, @RequestParam String userPwd, 
+			ModelMap model, HttpSession session) throws Exception {
 		logger.info("This is a login process");
 
 		// session clear
 		session.removeAttribute("user");
-		UsersModel user = loginService.checkLogin(userName);
+		UserModel user = loginService.checkUserRegistered(userName, userPwd);
 		if(user == null) {
-			logger.warn("There is no the account");
-			return "login/index";
+			logger.error("There is no the account");
+			model.addAttribute("errorMessage", message.getMessage("parameter.error.message", null, LOCALE));
+			return "login/denied";
 		}
 		session.setAttribute("user", user);
 		logger.info("user status = " + user.getUserStatus());

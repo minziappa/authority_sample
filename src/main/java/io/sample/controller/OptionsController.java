@@ -2,6 +2,7 @@ package io.sample.controller;
 
 import io.sample.bean.Sample;
 import io.sample.bean.para.user.UserPara;
+import io.sample.service.LoginService;
 import io.sample.service.SampleService;
 
 import java.util.Map;
@@ -32,7 +33,7 @@ public class OptionsController extends AbstractBaseController {
 	@Autowired
 	private MessageSource message;
 	@Autowired
-	private SampleService sampleService;
+	private LoginService loginService;
 
     @RequestMapping(value = {"/", "", "index"}, method=RequestMethod.GET)
 	public String index(HttpSession session, ModelMap model) throws Exception {
@@ -64,7 +65,7 @@ public class OptionsController extends AbstractBaseController {
 		}
 
 		// Execute the transaction
-		if(!sampleService.insertSample(userPara)) {
+		if(!loginService.insertUser(userPara)) {
 			model.addAttribute("errorMessage", message.getMessage("parameter.error.message", null, LOCALE));
 			model.addAttribute("model", sample);
 			return "users/inputUser";
@@ -83,7 +84,7 @@ public class OptionsController extends AbstractBaseController {
 	   	model.addAttribute("model", sample);
 
 		// Execute the transaction
-		sample.setUsersList(sampleService.selectSampleList());
+		sample.setUsersList(loginService.selectUserList());
 
 		model.addAttribute("model", sample);
 

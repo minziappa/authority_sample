@@ -2,7 +2,7 @@ package io.sample.bean.model;
 
 import java.util.Date;
 
-public class UsersModel {
+public class UserModel {
 
 	private int userId;
 	private String userName;

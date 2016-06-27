@@ -5,7 +5,7 @@
 <mapper namespace="io.sample.dao.SlaveDao">
 
 	<select id="selectUser" parameterType="map" 
-		resultType="io.sample.bean.model.UsersModel">
+		resultType="io.sample.bean.model.UserModel">
 		SELECT
 			user_id,
 			user_name,
@@ -14,13 +14,13 @@
 			insert_time,
 			update_time
 		FROM
-			users
+			user
 		WHERE
 			user_name = #{userName}
 	</select>
 
 	<select id="selectUsersList" parameterType="map" 
-		resultType="io.sample.bean.model.UsersModel">
+		resultType="io.sample.bean.model.UserModel">
 		SELECT
 			user_id,
 			user_name,
@@ -29,7 +29,7 @@
 			insert_time,
 			update_time
 		FROM
-			users
+			user
 	</select>
 
 	<select id="selectAuth" parameterType="map" 
