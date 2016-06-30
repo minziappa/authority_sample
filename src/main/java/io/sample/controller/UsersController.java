@@ -4,7 +4,6 @@ import io.sample.bean.Sample;
 import io.sample.bean.para.user.UserDetailPara;
 import io.sample.bean.para.user.UserPara;
 import io.sample.service.LoginService;
-import io.sample.service.SampleService;
 
 import java.util.Map;
 

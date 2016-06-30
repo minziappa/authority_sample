@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
 import org.springframework.web.servlet.view.RedirectView;
 
-import io.sample.annotation.Auth;
+import io.sample.annotation.Authority;
 import io.sample.bean.model.UserModel;
 import io.sample.bean.model.auth.AuthModel;
 import io.sample.service.AuthService;
@@ -41,37 +41,40 @@ public class OauthInterceptor implements HandlerInterceptor {
 		String pathInfo = request.getPathInfo();
 		logger.info("pathInfo >>> " + pathInfo);
 
-		if(pathInfo.equals("/login/callback") || pathInfo.equals("/error/error")) {
-			return true;
-		}
-
 		HttpSession session = request.getSession();
 		UserModel user = (UserModel) session.getAttribute("user");
 
-		// This is a login process in your local machine
-		if(!pathInfo.equals("/login/login") && user == null) {
+		if(user != null) {
+			session.setAttribute("user", user);
+			logger.info("PathInfo=" + pathInfo + ", user = " + user.getUserName());
+			session.setMaxInactiveInterval(100*60);
+		} else {
+			if (pathInfo.startsWith("/login") || pathInfo.startsWith("/js") || pathInfo.startsWith("/css")) {
+				return true;
+			}
+			logger.info("redirect");
 			RedirectView redirectView = new RedirectView();
-			redirectView.setUrl("/login/login");
+			redirectView.setUrl("/login/");
 			redirectView.addStaticAttribute("userName", "test");
-			redirectView.addStaticAttribute("userPwd", "test");
 			ModelAndView mv = new ModelAndView(redirectView);
 			ModelAndViewDefiningException mvde = new ModelAndViewDefiningException(mv);
 			throw mvde;
 		}
+		// (pathInfo.startsWith("/login") && user == null) 
 
 //		// Hope this will be used for being strong security.
 //		if (handler instanceof HandlerMethod) {
 //			HandlerMethod handlerMethod = (HandlerMethod) handler;
-//			Auth auth = handlerMethod.getMethodAnnotation(Auth.class);
+//			Authority auth = handlerMethod.getMethodAnnotation(Authority.class);
 //			if(auth == null) {
-//				return true;
+//				return false;
 //			} else {
 //				logger.info("auth >> " + auth.priority().value);
 //			}
 //			AuthModel authModel = authService.selectAuth(auth.priority().value);
 //			if(authModel == null) {
 //				logger.info("auth >> " + auth.priority().value);
-//				return true;
+//				return false;
 //			}
 //		}
 

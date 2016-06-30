@@ -8,7 +8,6 @@ import io.sample.dao.MasterDao;
 import io.sample.dao.SlaveDao;
 import io.sample.service.AbstractService;
 import io.sample.service.AuthService;
-import io.sample.service.SampleService;
 
 import java.util.ArrayList;
 import java.util.HashMap;

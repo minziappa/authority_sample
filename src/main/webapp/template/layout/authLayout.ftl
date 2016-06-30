@@ -11,7 +11,7 @@
 			<#elseif model.navi == "users">
 				<#include "usersMenu.ftl"/>
 			</#if>
-		</#if></#if>>
+		</#if></#if>
     	<div class="jumbotron">
 			<#nested/>
 		</div><!-- /jumbotron -->

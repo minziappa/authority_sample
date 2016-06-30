@@ -2,9 +2,11 @@ package io.sample.controller;
 
 import io.sample.bean.Sample;
 import io.sample.bean.model.UserModel;
+import io.sample.bean.para.login.LoginPara;
 import io.sample.service.LoginService;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,19 +48,23 @@ public class LoginController extends AbstractBaseController {
 
 		Sample sample = new Sample();
 		sample.setMenu("login");
-		model.addAttribute("model", sample);
 
+		
+		// One time token for security later..
+
+		
+		model.addAttribute("model", sample);
+		
 		return "login/index";
 	}
 
 	@RequestMapping(value = {"login"})
-	public String login(@RequestParam String userName, @RequestParam String userPwd, 
-			ModelMap model, HttpSession session) throws Exception {
+	public String login(@Valid LoginPara loginPara, ModelMap model, HttpSession session) throws Exception {
 		logger.info("This is a login process");
 
 		// session clear
 		session.removeAttribute("user");
-		UserModel user = loginService.checkUserRegistered(userName, userPwd);
+		UserModel user = loginService.checkUserRegistered(loginPara);
 		if(user == null) {
 			logger.error("There is no the account");
 			model.addAttribute("errorMessage", message.getMessage("parameter.error.message", null, LOCALE));
@@ -80,9 +86,7 @@ public class LoginController extends AbstractBaseController {
 		// Clear data in the session.
 		session.invalidate();
 
-		model.addAttribute("model", sample);
-
-		return "redirect:/login/";
+		return "redirect:/";
 	}
 
 	@RequestMapping(value = {"denied"})

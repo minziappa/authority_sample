@@ -1,6 +1,6 @@
 package io.sample.controller;
 
-import io.sample.annotation.Auth;
+import io.sample.annotation.Authority;
 import io.sample.bean.Sample;
 import io.sample.bean.para.auth.AuthDetailPara;
 import io.sample.bean.para.auth.AuthPara;
@@ -8,7 +8,6 @@ import io.sample.bean.para.auth.UpdateUsersPara;
 import io.sample.bean.para.user.UserDetailPara;
 import io.sample.bean.para.user.UserPara;
 import io.sample.service.AuthService;
-import io.sample.service.SampleService;
 
 import java.util.Map;
 
@@ -38,11 +37,9 @@ public class AuthController extends AbstractBaseController {
 	@Autowired
 	private MessageSource message;
 	@Autowired
-	private SampleService sampleService;
-	@Autowired
 	private AuthService authService;
 
-	@Auth(priority = Auth.Priority.SUPER_ADMIN)
+	@Authority(priority = Authority.Priority.SUPER_ADMIN)
     @RequestMapping(value = {"/", "", "index"}, method=RequestMethod.GET)
 	public String index(HttpSession session, ModelMap model) throws Exception {
 		Sample sample = new Sample();

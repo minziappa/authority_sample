@@ -1,13 +1,13 @@
 package io.sample.service.impl;
 
 import io.sample.bean.model.UserModel;
+import io.sample.bean.para.login.LoginPara;
 import io.sample.bean.para.user.UserDetailPara;
 import io.sample.bean.para.user.UserPara;
 import io.sample.dao.MasterDao;
 import io.sample.dao.SlaveDao;
 import io.sample.service.AbstractService;
 import io.sample.service.LoginService;
-import io.sample.service.SampleService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,8 +31,6 @@ public class LoginServiceImpl extends AbstractService implements LoginService {
 	private SqlSession masterDao;
 	@Autowired
 	private SqlSession slaveDao;
-	@Autowired
-	private SampleService sampleService;
 
 	/**
 	 * 
@@ -78,15 +76,17 @@ public class LoginServiceImpl extends AbstractService implements LoginService {
 	 * 
 	 */
 	@Override
-	public UserModel checkUserRegistered(String name, String pwd) throws Exception {
+	public UserModel checkUserRegistered(LoginPara loginPara) throws Exception {
 
-		UserModel user = this.selectUser(name);
+		UserModel user = this.selectUser(loginPara.getUserName());
 		if(user == null) {
+			logger.warn("There is no user.");
 			return null;
 		}
 
 		// Check PWD
-		if(!pwd.equals(user.getUserPwd())) {
+		if(!loginPara.getUserPwd().equals(user.getUserPwd())) {
+			logger.warn("The password is not matched.");
 			return null;
 		}
 
