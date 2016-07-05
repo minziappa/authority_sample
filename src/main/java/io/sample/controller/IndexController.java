@@ -1,6 +1,6 @@
 package io.sample.controller;
 
-import io.sample.bean.Sample;
+import io.sample.bean.Authorities;
 
 import javax.servlet.http.HttpSession;
 
@@ -35,10 +35,10 @@ public class IndexController extends AbstractBaseController {
 
     @RequestMapping(value = {"/", "", "index"}, method=RequestMethod.GET)
 	public String index(HttpSession session, ModelMap model) throws Exception {
-		Sample sample = new Sample();
+		Authorities authorities = new Authorities();
 
-		sample.setNavi("home");
-	   	model.addAttribute("model", sample);
+		authorities.setNavi("home");
+	   	model.addAttribute("model", authorities);
 
 		return "index";
 	}

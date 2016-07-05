@@ -1,5 +1,6 @@
 package io.sample.service.impl;
 
+import io.sample.bean.model.auth.AuthJoinUsersModel;
 import io.sample.bean.model.auth.AuthModel;
 import io.sample.bean.model.auth.UserAuthModel;
 import io.sample.bean.para.auth.AuthPara;
@@ -45,6 +46,24 @@ public class AuthServiceImpl extends AbstractService implements AuthService {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public List<AuthJoinUsersModel> selectAuthAndUsers(String authority) throws Exception {
+
+		List<AuthJoinUsersModel> authJoinUsersList = null;
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("authority", authority);
+
+		try {
+			sqlSessionSlaveFactory.setDataSource(getDispersionDb());
+			authJoinUsersList = slaveDao.getMapper(SlaveDao.class).selectAuthJoinUserMapList();
+		} catch (Exception e) {
+			logger.error("Exception error", e);
+		}
+
+		return authJoinUsersList;
 	}
 
 	@Override

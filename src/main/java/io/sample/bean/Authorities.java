@@ -2,15 +2,17 @@ package io.sample.bean;
 
 import io.sample.bean.model.UserModel;
 import io.sample.bean.model.auth.AuthModel;
+import io.sample.bean.model.auth.AuthJoinUsersModel;
 
 import java.util.List;
 
-public class Sample {
+public class Authorities {
 
 	private UserModel users;
 	private List<UserModel> usersList;
 	private AuthModel auth;
 	private List<AuthModel> authList;
+	private List<AuthJoinUsersModel> authUsersList;
 	private String navi;
 	private String menu;
     private String errorMessage;
@@ -38,6 +40,12 @@ public class Sample {
 	}
 	public void setAuthList(List<AuthModel> authList) {
 		this.authList = authList;
+	}
+	public List<AuthJoinUsersModel> getAuthUsersList() {
+		return authUsersList;
+	}
+	public void setAuthUsersList(List<AuthJoinUsersModel> authUsersList) {
+		this.authUsersList = authUsersList;
 	}
 	public String getNavi() {
 		return navi;

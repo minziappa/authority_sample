@@ -1,6 +1,6 @@
 package io.sample.controller;
 
-import io.sample.bean.Sample;
+import io.sample.bean.Authorities;
 import io.sample.bean.para.user.UserDetailPara;
 import io.sample.bean.para.user.UserPara;
 import io.sample.service.LoginService;
@@ -37,22 +37,22 @@ public class UsersController extends AbstractBaseController {
 
     @RequestMapping(value = {"/", "", "index"}, method=RequestMethod.GET)
 	public String index(HttpSession session, ModelMap model) throws Exception {
-		Sample sample = new Sample();
+    	Authorities authorities = new Authorities();
 
-		sample.setNavi("users");
-		sample.setMenu("index");
-	   	model.addAttribute("model", sample);
+		authorities.setNavi("users");
+		authorities.setMenu("index");
+	   	model.addAttribute("model", authorities);
 
 		return "users/index";
 	}
 
     @RequestMapping(value = {"inputUser"})
 	public String inputUser(HttpSession session, ModelMap model) throws Exception {
-		Sample sample = new Sample();
+    	Authorities authorities = new Authorities();
 
-		sample.setNavi("users");
-		sample.setMenu("inputUser");
-	   	model.addAttribute("model", sample);
+		authorities.setNavi("users");
+		authorities.setMenu("inputUser");
+	   	model.addAttribute("model", authorities);
 
 		return "users/inputUser";
 	}
@@ -61,9 +61,9 @@ public class UsersController extends AbstractBaseController {
 	public String registerUser(@Valid UserPara userPara, BindingResult bindingResult, 
 			ModelMap model, HttpServletResponse response) throws Exception {
 
-		Sample sample = new Sample();
-		sample.setNavi("users");
-		sample.setMenu("inputUser");
+		Authorities authorities = new Authorities();
+		authorities.setNavi("users");
+		authorities.setMenu("inputUser");
 
 		Map<String, String> mapErrorMessage = null;
 
@@ -74,14 +74,14 @@ public class UsersController extends AbstractBaseController {
 
 			mapErrorMessage = this.handleErrorMessages(bindingResult.getAllErrors());
 			model.addAttribute("mapErrorMessage",  mapErrorMessage);
-			model.addAttribute("model", sample);
+			model.addAttribute("model", authorities);
 			return "users/inputUser";
 		}
 
 		// Execute the transaction
 		if(!loginService.insertUser(userPara)) {
 			model.addAttribute("errorMessage", message.getMessage("parameter.error.message", null, LOCALE));
-			model.addAttribute("model", sample);
+			model.addAttribute("model", authorities);
 			return "users/inputUser";
 		}
 
@@ -92,9 +92,9 @@ public class UsersController extends AbstractBaseController {
 	public String deleteUser(@Valid UserPara userPara, BindingResult bindingResult, 
 			ModelMap model, HttpServletResponse response) throws Exception {
 
-		Sample sample = new Sample();
-		sample.setNavi("users");
-		sample.setMenu("userDetail");
+		Authorities authorities = new Authorities();
+		authorities.setNavi("users");
+		authorities.setMenu("userDetail");
 
 		Map<String, String> mapErrorMessage = null;
 
@@ -105,14 +105,14 @@ public class UsersController extends AbstractBaseController {
 
 			mapErrorMessage = this.handleErrorMessages(bindingResult.getAllErrors());
 			model.addAttribute("mapErrorMessage",  mapErrorMessage);
-			model.addAttribute("model", sample);
+			model.addAttribute("model", authorities);
 			return "users/userDetail";
 		}
 
 		// Execute the transaction
 		if(!loginService.deleteUser(userPara)) {
 			model.addAttribute("errorMessage", message.getMessage("parameter.error.message", null, LOCALE));
-			model.addAttribute("model", sample);
+			model.addAttribute("model", authorities);
 			return "users/userDetail";
 		}
 
@@ -122,15 +122,15 @@ public class UsersController extends AbstractBaseController {
 	@RequestMapping(value = {"userList"})
 	public String userList(ModelMap model) throws Exception {
 
-		Sample sample = new Sample();
-		sample.setNavi("users");
-		sample.setMenu("userList");
-	   	model.addAttribute("model", sample);
+		Authorities authorities = new Authorities();
+		authorities.setNavi("users");
+		authorities.setMenu("userList");
+	   	model.addAttribute("model", authorities);
 
 		// Execute the transaction
-		sample.setUsersList(loginService.selectUserList());
+		authorities.setUsersList(loginService.selectUserList());
 
-		model.addAttribute("model", sample);
+		model.addAttribute("model", authorities);
 
 		return "users/userList";
 	}
@@ -139,9 +139,9 @@ public class UsersController extends AbstractBaseController {
 	public String userDetail(@Valid UserDetailPara userDetailPara, BindingResult bindingResult, 
 			ModelMap model, HttpServletResponse response) throws Exception {
 
-		Sample sample = new Sample();
-		sample.setNavi("users");
-		sample.setMenu("userDetail");
+		Authorities authorities = new Authorities();
+		authorities.setNavi("users");
+		authorities.setMenu("userDetail");
 
 		// If it occurs a error, set the default value.
 		if (bindingResult.hasErrors()) {
@@ -153,9 +153,9 @@ public class UsersController extends AbstractBaseController {
 		}
 
 		// Select name's data from User
-		sample.setUsers(loginService.selectUser(userDetailPara.getUserName()));
+		authorities.setUsers(loginService.selectUser(userDetailPara.getUserName()));
 
-		model.addAttribute("model", sample);
+		model.addAttribute("model", authorities);
 
 		return "users/userDetail";
 	}

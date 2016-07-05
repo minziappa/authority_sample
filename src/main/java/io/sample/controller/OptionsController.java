@@ -1,6 +1,6 @@
 package io.sample.controller;
 
-import io.sample.bean.Sample;
+import io.sample.bean.Authorities;
 import io.sample.bean.para.user.UserPara;
 import io.sample.service.LoginService;
 
@@ -36,7 +36,7 @@ public class OptionsController extends AbstractBaseController {
 
     @RequestMapping(value = {"/", "", "index"}, method=RequestMethod.GET)
 	public String index(HttpSession session, ModelMap model) throws Exception {
-		Sample sample = new Sample();
+    	Authorities sample = new Authorities();
 		sample.setNavi("options");
 		sample.setMenu("index");
 	   	model.addAttribute("model", sample);
@@ -48,7 +48,7 @@ public class OptionsController extends AbstractBaseController {
 	public String registerUser(@Valid UserPara userPara, BindingResult bindingResult, 
 			ModelMap model, HttpServletResponse response) throws Exception {
 
-		Sample sample = new Sample();
+		Authorities sample = new Authorities();
 
 		Map<String, String> mapErrorMessage = null;
 
@@ -76,7 +76,7 @@ public class OptionsController extends AbstractBaseController {
 	@RequestMapping(value = {"userList"})
 	public String userList(ModelMap model) throws Exception {
 
-		Sample sample = new Sample();
+		Authorities sample = new Authorities();
 
 		sample.setNavi("options");
 		sample.setMenu("options");

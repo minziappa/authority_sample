@@ -1,6 +1,6 @@
 package io.sample.controller;
 
-import io.sample.bean.Sample;
+import io.sample.bean.Authorities;
 import io.sample.bean.model.UserModel;
 import io.sample.bean.para.login.LoginPara;
 import io.sample.service.LoginService;
@@ -46,14 +46,14 @@ public class LoginController extends AbstractBaseController {
     @RequestMapping(value = {"/", "", "index"}, method=RequestMethod.GET)
 	public String index(HttpSession session, ModelMap model) throws Exception {
 
-		Sample sample = new Sample();
-		sample.setMenu("login");
+    	Authorities authorities = new Authorities();
+		authorities.setMenu("login");
 
 		
 		// One time token for security later..
 
 		
-		model.addAttribute("model", sample);
+		model.addAttribute("model", authorities);
 		
 		return "login/index";
 	}
@@ -80,8 +80,8 @@ public class LoginController extends AbstractBaseController {
 	@RequestMapping(value = {"logout"})
 	public String logout(ModelMap model, HttpSession session) throws Exception {
 
-		Sample sample = new Sample();
-		sample.setMenu("login");
+		Authorities authorities = new Authorities();
+		authorities.setMenu("login");
 
 		// Clear data in the session.
 		session.invalidate();

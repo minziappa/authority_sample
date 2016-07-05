@@ -1,6 +1,7 @@
 package io.sample.dao;
 
 import io.sample.bean.model.UserModel;
+import io.sample.bean.model.auth.AuthJoinUsersModel;
 import io.sample.bean.model.auth.AuthModel;
 import io.sample.bean.model.auth.UserAuthModel;
 
@@ -19,4 +20,5 @@ public interface SlaveDao {
 	public List<UserModel> selectUsersList() throws SQLException;
 	public List<AuthModel> selectAuthList() throws SQLException;
 
+	public List<AuthJoinUsersModel> selectAuthJoinUserMapList() throws SQLException;
 }

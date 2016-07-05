@@ -4,6 +4,44 @@
 
 <mapper namespace="io.sample.dao.SlaveDao">
 
+	<resultMap id="auSubusResultMap" type="io.sample.bean.model.auth.AuthUsersModel">
+		<id property="authorityId" column="authority_id"/>
+		<result property="authority" column="authority"/>
+		<result property="insertTime" column="insert_time"/>
+		<result property="updateTime" column="update_time"/>
+		<collection property="usersList" javaType="java.util.ArrayList" resultMap="userResultMapList"/>
+	</resultMap>
+
+	<resultMap id="userResultMapList" type="java.util.HashMap">
+		<id property="userId" column="user_id"/>
+		<result property="userName" column="user_name"/>
+		<result property="userStatus" column="user_status"/>
+		<result property="insertTime" column="insert_time"/>
+		<result property="updateTime" column="update_time"/>
+	</resultMap>
+
+	<select id="selectAuthJoinUserMapList" resultMap="auSubusResultMap">
+		SELECT 
+			au.authority_id,
+			au.authority,
+			ua.user_authorities_id,
+			us.user_id,
+			us.user_name,
+			us.user_status,
+			us.insert_date,
+			us.update_date
+		FROM 
+				authorities au 
+			INNER JOIN 
+				user_authorities ua 
+				ON 
+					au.authority_id = ua.authority_id
+    		INNER JOIN 
+    			user us
+        		ON 
+        			ua.user_id = us.user_id
+	</select>
+
 	<select id="selectUser" parameterType="map" 
 		resultType="io.sample.bean.model.UserModel">
 		SELECT

@@ -1,7 +1,7 @@
 package io.sample.controller;
 
 import io.sample.annotation.Authority;
-import io.sample.bean.Sample;
+import io.sample.bean.Authorities;
 import io.sample.bean.para.auth.AuthDetailPara;
 import io.sample.bean.para.auth.AuthPara;
 import io.sample.bean.para.auth.UpdateUsersPara;
@@ -42,7 +42,7 @@ public class AuthController extends AbstractBaseController {
 	@Authority(priority = Authority.Priority.SUPER_ADMIN)
     @RequestMapping(value = {"/", "", "index"}, method=RequestMethod.GET)
 	public String index(HttpSession session, ModelMap model) throws Exception {
-		Sample sample = new Sample();
+		Authorities sample = new Authorities();
 
 		sample.setNavi("auth");
 		sample.setMenu("index");
@@ -56,7 +56,7 @@ public class AuthController extends AbstractBaseController {
 
     @RequestMapping(value = {"inputAuth"})
 	public String inputAuth(HttpSession session, ModelMap model) throws Exception {
-		Sample sample = new Sample();
+    	Authorities sample = new Authorities();
 
 		sample.setNavi("auth");
 		sample.setMenu("inputAuth");
@@ -69,7 +69,7 @@ public class AuthController extends AbstractBaseController {
 	public String registerAuth(@Valid AuthPara authPara, BindingResult bindingResult, 
 			ModelMap model, HttpServletResponse response) throws Exception {
 
-		Sample sample = new Sample();
+		Authorities sample = new Authorities();
 		sample.setNavi("auth");
 		sample.setMenu("inputAuth");
 
@@ -99,7 +99,7 @@ public class AuthController extends AbstractBaseController {
 	@RequestMapping(value = {"authList"})
 	public String authList(ModelMap model) throws Exception {
 
-		Sample sample = new Sample();
+		Authorities sample = new Authorities();
 		sample.setNavi("auth");
 		sample.setMenu("authList");
 	   	model.addAttribute("model", sample);
@@ -116,9 +116,9 @@ public class AuthController extends AbstractBaseController {
 	public String authDetail(@Valid AuthDetailPara authDetailPara, BindingResult bindingResult, 
 			ModelMap model, HttpServletResponse response) throws Exception {
 
-		Sample sample = new Sample();
-		sample.setNavi("auth");
-		sample.setMenu("authDetail");
+		Authorities authorityModel = new Authorities();
+		authorityModel.setNavi("auth");
+		authorityModel.setMenu("authDetail");
 
 		// If it occurs a error, set the default value.
 		if (bindingResult.hasErrors()) {
@@ -130,20 +130,36 @@ public class AuthController extends AbstractBaseController {
 		}
 
 		// Select name's data from User
-		sample.setAuth(authService.selectAuth(authDetailPara.getAuthority()));
+		authorityModel.setAuth(authService.selectAuth(authDetailPara.getAuthority()));
 
-		model.addAttribute("model", sample);
+		model.addAttribute("model", authorityModel);
 
 		return "auth/authDetail";
 	}
 
+	@RequestMapping(value = {"authJoinUsers"})
+	public String authJoinUsers(@Valid AuthDetailPara authDetailPara, BindingResult bindingResult, 
+			ModelMap model, HttpServletResponse response) throws Exception {
+
+		Authorities authorityModel = new Authorities();
+		authorityModel.setNavi("auth");
+		authorityModel.setMenu("index");
+
+		// Select name's data from User
+		authorityModel.setAuthUsersList(authService.selectAuthAndUsers(null));
+
+		model.addAttribute("model", authorityModel);
+
+		return "auth/authDetail";
+	}
+	
 	@RequestMapping(value = {"updateUsers"})
 	public String updateUsers(@Valid UpdateUsersPara updateUsersPara, BindingResult bindingResult, 
 			ModelMap model, HttpServletResponse response) throws Exception {
 
-		Sample sample = new Sample();
-		sample.setNavi("auth");
-		sample.setMenu("index");
+		Authorities authorityModel = new Authorities();
+		authorityModel.setNavi("auth");
+		authorityModel.setMenu("index");
 
 		Map<String, String> mapErrorMessage = null;
 
@@ -154,14 +170,14 @@ public class AuthController extends AbstractBaseController {
 
 			mapErrorMessage = this.handleErrorMessages(bindingResult.getAllErrors());
 			model.addAttribute("mapErrorMessage",  mapErrorMessage);
-			model.addAttribute("model", sample);
+			model.addAttribute("model", authorityModel);
 			return "auth/index";
 		}
 
 		// Execute the transaction
 		if(!authService.updateUsers(updateUsersPara)) {
 			model.addAttribute("errorMessage", message.getMessage("parameter.error.message", null, LOCALE));
-			model.addAttribute("model", sample);
+			model.addAttribute("model", authorityModel);
 			return "auth/inputAuth";
 		}
 

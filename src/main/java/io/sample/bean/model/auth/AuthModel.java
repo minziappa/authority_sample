@@ -1,9 +1,12 @@
 package io.sample.bean.model.auth;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class AuthModel {
-	
+public class AuthModel implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	private int authorityId;
 	private String authority;
 	private Date insertTime;
