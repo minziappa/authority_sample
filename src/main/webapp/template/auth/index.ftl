@@ -38,7 +38,6 @@ function backItem() {
 		  } else {
 			  console.log(">not selected>" + auth[i].text);
 		  }
-
 	  }
 	//  option.text = users[users.selectedIndex].text;
 	//  auth.add(option);
@@ -129,7 +128,19 @@ function ChangeCarList() {
 
 var authAndUsers = {};
 
-authAndUsers['VO'] = ['V70', 'XC60', 'XC90'];
+<#if model??>
+	<#if model.authUsersList?has_content>
+		<#list model.authUsersList as authUser>
+authAndUsers['${authUser.authority?if_exists}'] = [
+			   <#if authUser.usersList?has_content>
+			   	<#list authUser.usersList as user>
+			    		${user.userName?if_exists},
+			    </#list>
+			   </#if>
+			   ];
+		</#list>
+	</#if>
+</#if>
 
 function changeAuthList() {
 	  var authList = document.getElementById("authId");

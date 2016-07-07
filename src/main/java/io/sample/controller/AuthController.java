@@ -42,14 +42,17 @@ public class AuthController extends AbstractBaseController {
 	@Authority(priority = Authority.Priority.SUPER_ADMIN)
     @RequestMapping(value = {"/", "", "index"}, method=RequestMethod.GET)
 	public String index(HttpSession session, ModelMap model) throws Exception {
-		Authorities sample = new Authorities();
+		Authorities authorityModel = new Authorities();
 
-		sample.setNavi("auth");
-		sample.setMenu("index");
+		authorityModel.setNavi("auth");
+		authorityModel.setMenu("index");
 		// Execute the transaction
-		sample.setAuthList(authService.selectAuthList());
+		authorityModel.setAuthList(authService.selectAuthList());
 
-	   	model.addAttribute("model", sample);
+		// Select name's data from User
+		authorityModel.setAuthUsersList(authService.selectAuthAndUsers(null));
+
+	   	model.addAttribute("model", authorityModel);
 
 		return "auth/index";
 	}

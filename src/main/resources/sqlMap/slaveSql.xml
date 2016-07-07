@@ -4,7 +4,7 @@
 
 <mapper namespace="io.sample.dao.SlaveDao">
 
-	<resultMap id="auSubusResultMap" type="io.sample.bean.model.auth.AuthUsersModel">
+	<resultMap id="auSubusResultMap" type="io.sample.bean.model.auth.AuthJoinUsersModel">
 		<id property="authorityId" column="authority_id"/>
 		<result property="authority" column="authority"/>
 		<result property="insertTime" column="insert_time"/>
@@ -28,8 +28,8 @@
 			us.user_id,
 			us.user_name,
 			us.user_status,
-			us.insert_date,
-			us.update_date
+			us.insert_time,
+			us.update_time
 		FROM 
 				authorities au 
 			INNER JOIN 
