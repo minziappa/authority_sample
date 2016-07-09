@@ -8,6 +8,7 @@ import io.sample.bean.para.auth.UpdateUsersPara;
 import io.sample.bean.para.user.UserDetailPara;
 import io.sample.bean.para.user.UserPara;
 import io.sample.service.AuthService;
+import io.sample.service.LoginService;
 
 import java.util.Map;
 
@@ -38,7 +39,10 @@ public class AuthController extends AbstractBaseController {
 	private MessageSource message;
 	@Autowired
 	private AuthService authService;
+	@Autowired
+	private LoginService loginService;
 
+	
 	@Authority(priority = Authority.Priority.SUPER_ADMIN)
     @RequestMapping(value = {"/", "", "index"}, method=RequestMethod.GET)
 	public String index(HttpSession session, ModelMap model) throws Exception {
@@ -46,6 +50,10 @@ public class AuthController extends AbstractBaseController {
 
 		authorityModel.setNavi("auth");
 		authorityModel.setMenu("index");
+
+		// Select user list
+		authorityModel.setUsersList(loginService.selectUserList());
+
 		// Execute the transaction
 		authorityModel.setAuthList(authService.selectAuthList());
 
