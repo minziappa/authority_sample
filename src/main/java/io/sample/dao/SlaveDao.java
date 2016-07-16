@@ -17,6 +17,7 @@ public interface SlaveDao {
 	public UserModel selectUser(Map<String, Object> map) throws SQLException;
 	public AuthModel selectAuth(Map<String, Object> map) throws SQLException;
 	public UserAuthModel selectUserAuth(Map<String, Object> map) throws SQLException;
+	public List<UserModel> selectUsersList(Map<String, Object> map) throws SQLException;
 	public List<UserModel> selectUsersList() throws SQLException;
 	public List<AuthModel> selectAuthList() throws SQLException;
 

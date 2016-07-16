@@ -2,20 +2,25 @@ package io.sample.controller;
 
 import io.sample.annotation.Authority;
 import io.sample.bean.Authorities;
+import io.sample.bean.model.UserModel;
 import io.sample.bean.para.auth.AuthDetailPara;
 import io.sample.bean.para.auth.AuthPara;
 import io.sample.bean.para.auth.UpdateUsersPara;
-import io.sample.bean.para.user.UserDetailPara;
-import io.sample.bean.para.user.UserPara;
 import io.sample.service.AuthService;
 import io.sample.service.LoginService;
 
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +31,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/auth")
@@ -193,6 +199,38 @@ public class AuthController extends AbstractBaseController {
 		}
 
 		return "redirect:/auth/";
+	}
+
+    @RequestMapping(value = {"searchUsersAjax"})
+	public void searchUsersAjax(@RequestParam("body") String body, HttpServletResponse response) 
+			throws Exception {
+
+    	logger.info("body >> " + body);
+
+    	JSONParser parser=new JSONParser();
+    	Object obj = parser.parse(body);
+    	JSONObject jsonObject = (JSONObject) obj;
+    	String value = (String)jsonObject.get("text");
+
+    	List<UserModel> usersList = loginService.selectUserList(value);
+
+    	LinkedList<Map<String, String>> linked = new LinkedList<Map<String, String>>();
+    	for(UserModel user : usersList) {
+    		Map<String, String> map = new LinkedHashMap<String, String>();
+    		map.put("map1", user.getUserName());
+    		map.put("map2", user.getUserStatus());
+    		linked.add(map);
+    	}
+
+		Map<String, LinkedList<Map<String, String>>> map = 
+				new LinkedHashMap<String, LinkedList<Map<String, String>>>();
+		map.put("users", linked);
+
+		String jsonString = JSONValue.toJSONString(map);
+
+		logger.info(jsonString);
+
+		this.handleWriteAjax(jsonString, response);
 	}
 
 }

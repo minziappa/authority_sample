@@ -1,18 +1,26 @@
 <#import "../layout/authLayout.ftl" as layout>
 <@layout.myLayout>
 
+<script src="/js/auth/auth.js"></script>
+<link href="/css/auth/auth.css" rel="stylesheet">
+
+<div>
+<ul id="statuses"></ul>
+</div>
+<div id="enquete"></div>
+
 <div class="row">
 	<div class="col-md-5">
 	  	<span>Input a user information.</span>
 	</div>
 	<div class="col-md-2">
-	  	<span>2.</span> 
 	</div>
 	<div class="col-md-5">
-	  	<span>Input a user information.</span> 
+	  	<span>Select authority.</span> 
 	</div>
+  	<form name="myForm" action="/auth/updateAuth" method="POST">
 	<div class="col-md-5">
-	  <input id="theValue" type="text" size="35" name="users" autocomplete="off"/>
+	  <input name="aname" type="text" size="10" class="form-control" name="users" autocomplete="off" autocorrect="off" autocapitilize="off" spellcheck="false" data-toggle="popover" data-trigger="manual" data-placement="top" title="Popover title" data-content="Default popover" onclick="releasPopover(this);" onkeydown="interverKeystroke(event, 0);"/>
       <select id="users" size="10" multiple='multiple' class="form-control">
 		<#if model??>
   		<#if model.usersList?has_content>
@@ -21,15 +29,13 @@
 			</#list>
 		</#if>
 		</#if>
-      </select>
+	  </select>
 	</div>
 	<div class="col-md-2">
 	  	<button type="button" class="btn btn-primary" onclick="javascript: moveItem();">move</button>
 	  	<button type="button" class="btn btn-primary" onclick="javascript: backItem();">back</button>
 	</div>
 	<div class="col-md-5">
-	  	Auth
-	  	<form name="myForm" action="/auth/deleteAuth" method="POST">
 	  	<select id="authId" name="authority" class="form-control" onchange="changeAuthList()">
 	  		<option value="">-- Please Select --</option>
 	  		<#if model??>
@@ -42,8 +48,8 @@
 		  </select>
 		<select id="usersAuthId" name="usersAuth" size="10" multiple='multiple' class="form-control">
         </select>
-      </form>
 	</div>
+	</form>
 </div>
 
 <script>
@@ -52,23 +58,47 @@ var users = document.getElementById("users");
 var auths = document.getElementById("authId");
 var usersAuth = document.getElementById("usersAuthId");
 
+// Check if it is the default.
 function checkIsDefault() {
-	console.log(">>>> 1abcde >> " + auths.selectedIndex);
 	if(auths.selectedIndex == 0) {
-		console.log(">>>> 2abcde" + auths.selectedIndex);
 		return false;
 	}
 	return true;
 }
 
+// move an item to the right list.
 function moveItem() {
 
 	// Check default
 	if(!checkIsDefault()) {
-		alert("alert >>> ");
+		alert("Could you choose a your?");
 		return false;
 	}
-	console.log(">>>> 12345");
+
+	var deleteCnt=[];
+	var k=0;
+	//
+	for(var i=0; i < users.options.length; i++) {
+		if(users.options[i].selected) {
+			console.log(">>> selected>" + users.options[i].text);
+			var option = document.createElement( 'option' );
+			option.value = users.options[i].value;
+			option.text = users.options[i].text;
+			usersAuth.add(option);
+			deleteCnt[k]='a' + k;
+			//users.remove(i);
+			k++;
+		} else {
+			console.log(">>> not selected>" + users.options[i].text);
+		}
+		console.log(">>> k >>>" + k);
+	}
+
+	for(var m; m < k; m++) {
+		console.log(">>>" + m +">>>" + deleteCnt[m]);
+	}
+
+/*
 	for (var i=0; i < users.length; i++) {
 		if(users[i].selected) {
 			console.log(">selected>" + users[i].text);
@@ -81,10 +111,20 @@ function moveItem() {
 			console.log(">not selected>" + users[i].text);
 		}
 	}
+*/
+
 //  option.text = users[users.selectedIndex].text;
 //  usersAuth.add(option);
+
 }
 
+
+function releasPopover(event) {
+	$jevent = $(event);
+	$jevent.popover('destroy');
+}
+
+	
 function backItem() {
 
 	for (var i=0; i < usersAuth.length; i++) {
@@ -103,6 +143,7 @@ function backItem() {
 	//  usersAuth.add(option);
 }
 
+// User list with authority.
 var authAndUsers = {};
 
 <#if model??>
@@ -136,8 +177,8 @@ function changeAuthList() {
 			usersList.options.add(user);
 		}
 	}
+}
 
-} 
 </script>
 
 </@layout.myLayout>

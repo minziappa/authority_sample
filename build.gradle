@@ -84,6 +84,7 @@ dependencies {
 	compile "org.mybatis:mybatis:3.2.2"
 	compile "org.mybatis:mybatis-spring:1.2.0"
 	compile "org.springmodules:spring-modules-jakarta-commons:0.8"
+	compile "com.googlecode.json-simple:json-simple:1.1.1"
 	provided "org.apache.tomcat:servlet-api:6.0.33"
 	testCompile "junit:junit:4.+"
 }

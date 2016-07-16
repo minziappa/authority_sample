@@ -58,6 +58,28 @@ public class LoginServiceImpl extends AbstractService implements LoginService {
 	 * 
 	 */
 	@Override
+	public List<UserModel> selectUserList(String name) throws Exception {
+
+		List<UserModel> userList = new ArrayList<UserModel>();
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userName", name);
+	
+		try {
+			sqlSessionSlaveFactory.setDataSource(getDispersionDb());
+			userList = slaveDao.getMapper(SlaveDao.class).selectUsersList(map);
+		} catch (Exception e) {
+			logger.error("Exception error", e);
+		}
+
+		return userList;
+	}
+
+	/**
+	 * 
+	 * 
+	 */
+	@Override
 	public List<UserModel> selectUserList() throws Exception {
 
 		List<UserModel> userList = new ArrayList<UserModel>();
