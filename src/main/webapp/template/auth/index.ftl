@@ -66,7 +66,7 @@ function checkIsDefault() {
 	return true;
 }
 
-// move an item to the right list.
+// Move an item to the right list.
 function moveItem() {
 
 	// Check default
@@ -76,8 +76,6 @@ function moveItem() {
 	}
 
 	var deleteCnt=[];
-	var k=0;
-	//
 	for(var i=0; i < users.options.length; i++) {
 		if(users.options[i].selected) {
 			console.log(">>> selected>" + users.options[i].text);
@@ -85,48 +83,23 @@ function moveItem() {
 			option.value = users.options[i].value;
 			option.text = users.options[i].text;
 			usersAuth.add(option);
-			deleteCnt[k]='a' + k;
-			//users.remove(i);
-			k++;
-		} else {
-			console.log(">>> not selected>" + users.options[i].text);
-		}
-		console.log(">>> k >>>" + k);
-	}
-
-	for(var m; m < k; m++) {
-		console.log(">>>" + m +">>>" + deleteCnt[m]);
-	}
-
-/*
-	for (var i=0; i < users.length; i++) {
-		if(users[i].selected) {
-			console.log(">selected>" + users[i].text);
-			option = document.createElement( 'option' );
-			option.value = users[i].value;
-			option.text = users[i].text;
-			usersAuth.add(option);
-			users.remove(i);
-		} else {
-			console.log(">not selected>" + users[i].text);
+			// Add key number into the array
+			deleteCnt.push(i);
 		}
 	}
-*/
 
-//  option.text = users[users.selectedIndex].text;
-//  usersAuth.add(option);
+	// Delete items
+	var j = 0;
+	for(var m=0; m < deleteCnt.length; m++) {
+		users.remove(deleteCnt[m]-j);
+		j=j+1;
+	}
 
 }
-
-
-function releasPopover(event) {
-	$jevent = $(event);
-	$jevent.popover('destroy');
-}
-
 	
 function backItem() {
 
+	var deleteCnt=[];
 	for (var i=0; i < usersAuth.length; i++) {
 		if(usersAuth[i].selected) {
 			console.log(">selected>" + usersAuth[i].text);
@@ -134,14 +107,29 @@ function backItem() {
 			option.value = usersAuth[i].value;
 			option.text = usersAuth[i].text;
 			users.add(option);
-			usersAuth.remove(i);
-		} else {
-			console.log(">not selected>" + usersAuth[i].text);
+			// Add key number into the array
+			deleteCnt.push(i);
 		}
 	}
-	//  option.text = users[users.selectedIndex].text;
-	//  usersAuth.add(option);
+	
+	// Delete items
+	var j = 0;
+	for(var m=0; m < deleteCnt.length; m++) {
+		usersAuth.remove(deleteCnt[m]-j);
+		j=j+1;
+	}
+
 }
+
+
+
+
+function releasPopover(event) {
+	$jevent = $(event);
+	$jevent.popover('destroy');
+}
+
+
 
 // User list with authority.
 var authAndUsers = {};
