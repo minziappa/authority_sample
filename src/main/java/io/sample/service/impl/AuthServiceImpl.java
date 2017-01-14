@@ -147,7 +147,6 @@ public class AuthServiceImpl extends AbstractService implements AuthService {
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	@Override
 	public boolean updateUsers(UpdateUsersPara updateUsersPara) throws Exception{
-		int intResult = 0;
 
 		if(this.checkAuth(updateUsersPara.getAuthorityId())) {
 			logger.warn("There is a data.");
@@ -168,10 +167,6 @@ public class AuthServiceImpl extends AbstractService implements AuthService {
 		} catch (Exception e) {
 			logger.error("Exception error", e);
 			throw e;
-		}
-		if(intResult < 1) {
-			logger.error("insertSample error, userName={}", updateUsersPara.getAuthorityId());
-			return false;
 		}
 
 		return true;
